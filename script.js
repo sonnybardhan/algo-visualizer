@@ -181,6 +181,7 @@ async function linear(el) {
 	slider.disabled = true;
 	searchInput.disabled = true;
 	let divNum;
+	let found = false;
 	colorBars('white', 0);
 	for (let child of containerDiv.children) {
 		divNum = parseInt(child.innerText);
@@ -188,6 +189,7 @@ async function linear(el) {
 			await wait(250);
 			//found
 			child.style.background = 'tomato';
+			found = true;
 			break;
 		} else {
 			await wait(250);
@@ -196,6 +198,7 @@ async function linear(el) {
 	}
 	searchInput.disabled = false;
 	slider.disabled = false;
+	if (!found) alert('Not found!');
 }
 //==========================
 //binary search
@@ -205,6 +208,7 @@ async function binary(el) {
 	searchInput.disabled = true;
 	let start = 0;
 	let end = containerDiv.children.length - 1;
+	let found = false;
 	await colorBars('white', 0);
 	while (start <= end) {
 		let mid = Math.floor((start + end) / 2);
@@ -216,6 +220,7 @@ async function binary(el) {
 			// await wait();
 			await colorBars('white', 0);
 			containerDiv.children[mid].style.background = 'tomato';
+			found = true;
 			break;
 		} else if (divNum < el) {
 			// await wait();
@@ -229,6 +234,11 @@ async function binary(el) {
 	}
 	searchInput.disabled = false;
 	slider.disabled = false;
+	if (!found) {
+		containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = '';
+		await wait(40);
+		alert('Not found!');
+	}
 	return null;
 }
 
