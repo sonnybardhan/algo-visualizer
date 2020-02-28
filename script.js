@@ -21,6 +21,8 @@ document.addEventListener('keydown', (e) => {
 let setSize = 25;
 let arr = [];
 let algo = '';
+let numToSearch = parseInt(searchInput.value);
+
 sliderDiv.style.display = 'none';
 searchDiv.style.display = 'none';
 
@@ -60,7 +62,7 @@ function generateArrayAndBars() {
 }
 
 function execute() {
-	let numToSearch = parseInt(searchInput.value);
+	// let numToSearch = parseInt(searchInput.value);
 	switch (algo) {
 		case 'linear':
 			searchPreCheck(linear, numToSearch);
@@ -80,10 +82,10 @@ function execute() {
 	}
 }
 
-function searchPreCheck(fn, num) {
-	if (num) {
-		console.log('Searching for: ', num);
-		fn(num);
+function searchPreCheck(fn) {
+	if (numToSearch) {
+		console.log('Searching for: ', numToSearch);
+		fn(numToSearch);
 	} else {
 		alert('please enter a valid input');
 	}
@@ -92,6 +94,7 @@ function searchPreCheck(fn, num) {
 
 slider.addEventListener('change', (e) => {
 	arr = [];
+	numToSearch = '';
 	setSize = parseInt(e.target.value);
 	sliderValueSpan.textContent = e.target.value;
 	clearContainerDiv();
@@ -106,6 +109,7 @@ function fullReset() {
 
 function reset() {
 	arr = [];
+	numToSearch = '';
 	searchDiv.style.display = 'none';
 	clearContainerDiv();
 	searchInput.value = '';
@@ -135,6 +139,14 @@ function generateBars() {
 		for (let num of arr) {
 			let newDiv = document.createElement('div');
 			newDiv.textContent = num;
+			//adding click handlers
+			if (algo === 'linear' || algo === 'binary') {
+				newDiv.addEventListener('click', function(e) {
+					// console.log(e.target.innerText);
+					numToSearch = parseInt(e.target.innerText);
+					search.value = parseInt(e.target.innerText);
+				});
+			}
 			containerDiv.style.alignItems = 'center';
 			newDiv.classList.add('barColor');
 			containerDiv.append(newDiv);
