@@ -111,6 +111,7 @@ function reset() {
 	searchInput.value = '';
 	sliderValueSpan.textContent = 25;
 	slider.value = 25;
+	goBtn.disabled = false;
 	slider.disabled = false;
 	choice.disabled = false;
 	algo = '';
@@ -156,6 +157,7 @@ function clearContainerDiv() {
 // linear search
 // ==========================
 async function linear(el) {
+	goBtn.disabled = true;
 	slider.disabled = true;
 	searchInput.disabled = true;
 	let divNum;
@@ -173,6 +175,7 @@ async function linear(el) {
 			child.style.background = 'lightseagreen';
 		}
 	}
+	goBtn.disabled = false;
 	searchInput.disabled = false;
 	slider.disabled = false;
 	if (!found) alert('Not found!');
@@ -181,6 +184,7 @@ async function linear(el) {
 //binary search
 //==========================
 async function binary(el) {
+	goBtn.disabled = true;
 	slider.disabled = true;
 	searchInput.disabled = true;
 	let start = 0;
@@ -205,6 +209,7 @@ async function binary(el) {
 			await colorBars('white', 0);
 		}
 	}
+	goBtn.disabled = false;
 	searchInput.disabled = false;
 	slider.disabled = false;
 	if (!found) {
@@ -219,6 +224,7 @@ async function binary(el) {
 // selectionSort
 // ==========================
 async function selectionSort() {
+	goBtn.disabled = true;
 	slider.disabled = true;
 	choice.disabled = true;
 	for (let i = 0; i < containerDiv.children.length - 1; i++) {
@@ -238,6 +244,7 @@ async function selectionSort() {
 	}
 	containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = 'tomato';
 	colorBars('hotpink', 40);
+	goBtn.disabled = false;
 	slider.disabled = false;
 	choice.disabled = false;
 	return;
@@ -260,6 +267,7 @@ function swapper(prev, next) {
 //bubble sort
 //==========================
 async function bubbleSort() {
+	goBtn.disabled = true;
 	slider.disabled = true;
 	choice.disabled = true;
 	let swapped;
@@ -279,6 +287,7 @@ async function bubbleSort() {
 		}
 	} while (swapped);
 	colorBars('hotpink', 40);
+	goBtn.disabled = false;
 	slider.disabled = false;
 	choice.disabled = false;
 	return;
