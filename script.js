@@ -182,12 +182,12 @@ async function linear(el) {
 		divNum = parseInt(child.innerText);
 		if (divNum === el) {
 			await wait(100);
-			child.style.background = 'tomato';
+			child.style.background = 'rgb(238, 255, 86)';
 			found = true;
 			break;
 		} else {
 			await wait(100);
-			child.style.background = 'lightseagreen';
+			child.style.background = 'rgb(235, 235, 235)';
 		}
 	}
 	choice.disabled = false;
@@ -208,11 +208,11 @@ async function binary(el) {
 	let end = containerDiv.children.length - 1;
 	await colorBars('white', 0);
 
-	containerDiv.children[start].style.background = 'lightseagreen';
-	containerDiv.children[end].style.background = 'lightseagreen';
+	containerDiv.children[start].style.background = 'rgb(235, 235, 235)';
+	containerDiv.children[end].style.background = 'rgb(235, 235, 235)';
 
 	let found = false;
-	await wait(1000);
+	await wait(500);
 
 	while (start <= end) {
 		let mid = Math.floor((start + end) / 2);
@@ -220,19 +220,19 @@ async function binary(el) {
 		await colorBars('white', 0);
 		if (divNum === el) {
 			await colorBars('white', 0);
-			containerDiv.children[mid].style.background = 'tomato';
+			containerDiv.children[mid].style.background = 'rgb(238, 255, 86)';
 			found = true;
 			break;
 		} else if (divNum < el) {
 			start = mid + 1;
-			containerDiv.children[start].style.background = 'lightseagreen';
-			containerDiv.children[end].style.background = 'lightseagreen';
+			containerDiv.children[start].style.background = 'rgb(235, 235, 235)';
+			containerDiv.children[end].style.background = 'rgb(235, 235, 235)';
 		} else {
 			end = mid - 1;
-			containerDiv.children[start].style.background = 'lightseagreen';
-			containerDiv.children[end].style.background = 'lightseagreen';
+			containerDiv.children[start].style.background = 'rgb(235, 235, 235)';
+			containerDiv.children[end].style.background = 'rgb(235, 235, 235)';
 		}
-		await wait(1000);
+		await wait(500);
 	}
 	choice.disabled = false;
 	goBtn.disabled = false;
@@ -254,20 +254,20 @@ async function selectionSort() {
 	for (let i = 0; i < containerDiv.children.length - 1; i++) {
 		let min = parseInt(containerDiv.children[i].innerText);
 		await wait();
-		containerDiv.children[i].style.backgroundColor = 'lightseagreen';
+		containerDiv.children[i].style.backgroundColor = 'rgb(235, 235, 235)';
 		for (let j = i + 1; j < containerDiv.children.length; j++) {
 			await wait(40);
-			containerDiv.children[j].style.backgroundColor = 'lightseagreen';
+			containerDiv.children[j].style.backgroundColor = 'rgb(235, 235, 235)';
 			if (arr[j] < arr[i]) {
 				swapper(i, j);
 			}
 			await wait(40);
 			containerDiv.children[j].style.backgroundColor = '';
 		}
-		containerDiv.children[i].style.backgroundColor = 'tomato';
+		containerDiv.children[i].style.backgroundColor = 'rgb(238, 255, 86)';
 	}
-	containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = 'tomato';
-	colorBars('lightcyan', 40);
+	containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = 'rgb(238, 255, 86)';
+	// colorBars('lightcyan', 40);
 	goBtn.disabled = false;
 	slider.disabled = false;
 	choice.disabled = false;
@@ -299,8 +299,8 @@ async function bubbleSort() {
 		swapped = false;
 		for (let i = 0; i < arr.length - 1; i++) {
 			await wait(40);
-			containerDiv.children[i].style.backgroundColor = 'lightseagreen';
-			containerDiv.children[i + 1].style.backgroundColor = 'lightseagreen';
+			containerDiv.children[i].style.backgroundColor = 'rgb(235, 235, 235)';
+			containerDiv.children[i + 1].style.backgroundColor = 'rgb(235, 235, 235)';
 			if (arr[i] > arr[i + 1]) {
 				await wait(40);
 				swapper(i, i + 1);
@@ -310,14 +310,14 @@ async function bubbleSort() {
 			containerDiv.children[i + 1].style.backgroundColor = '';
 		}
 	} while (swapped);
-	colorBars('lightcyan', 40);
+	colorBars('rgb(238, 255, 86)', 40);
 	goBtn.disabled = false;
 	slider.disabled = false;
 	choice.disabled = false;
 	return;
 }
 
-async function colorBars(color = 'lightblue', t = 40, start = 0, end = containerDiv.children.length) {
+async function colorBars(color = 'rgb(238, 255, 86)', t = 40, start = 0, end = containerDiv.children.length) {
 	let bar = containerDiv.children;
 	for (let i = start; i < end; i++) {
 		await wait(t);

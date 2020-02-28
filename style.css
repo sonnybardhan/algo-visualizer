@@ -4,6 +4,7 @@
 body {
 	padding: 50px 50px;
 	font-family: 'Spartan';
+	background-color: rgb(247, 247, 247);
 }
 
 button {
@@ -14,14 +15,19 @@ button {
 .container {
 	margin-top: 20px;
 	height: 50vh;
-	border: 2px solid black;
+	border: 1px solid rgb(150, 150, 150);
 	text-align: center;
 	display: flex;
 	align-items: center;
 	padding: 5px;
 	justify-content: center;
+	background-color: white;
 }
-
+hr {
+	margin-top: 10px;
+	margin-bottom: 20px;
+	width: 200px;
+}
 #heading {
 	font-size: 40px;
 	text-align: center;
@@ -34,12 +40,16 @@ button {
 	outline: none;
 }
 #resetBtn {
-	background-color: red;
-	color: white;
+	/* background-color: rgb(187, 187, 187); */
+	/* color: white; */
+	font-weight: bold;
 }
 #goBtn {
-	background-color: green;
-	color: white;
+	/* background-color: rgb(188, 228, 188); */
+	/* background-color: rgb(255, 255, 255); */
+	background-color: rgb(238, 255, 86);
+	font-weight: bold;
+	/* color: white; */
 }
 
 .barColor {
