@@ -66,6 +66,8 @@ goBtn.addEventListener('click', () => {
 			}
 			break;
 		case 'bubble':
+			console.log('bubble sorting!');
+			bubbleSort();
 			break;
 		case 'selection':
 			console.log('selection sorting!');
@@ -170,6 +172,7 @@ async function linear(el) {
 	slider.disabled = true;
 	searchInput.disabled = true;
 	let divNum;
+	colorBars('white', 0);
 	for (let child of containerDiv.children) {
 		divNum = parseInt(child.innerText);
 		if (divNum === el) {
@@ -193,6 +196,8 @@ async function binary(el) {
 	let start = 0;
 	// let end = arr.length - 1;
 	let end = containerDiv.children.length - 1;
+	colorBars('white', 0);
+	colorBorders();
 
 	containerDiv.children[start].style.border = '5px solid red';
 	containerDiv.children[end].style.border = '5px solid red';
@@ -239,35 +244,20 @@ async function selectionSort() {
 		containerDiv.children[i].style.backgroundColor = 'yellow';
 		for (let j = i + 1; j < containerDiv.children.length; j++) {
 			//delay
-			await wait();
+			await wait(40);
 			//color the next bar
 			containerDiv.children[j].style.backgroundColor = 'yellow';
 
 			if (arr[j] < arr[i]) {
 				swapper(i, j);
 			}
-			// if (arr[j] < arr[i]) {
-			// 	let iHeight = containerDiv.children[i].style.height;
-			// 	let iText = containerDiv.children[i].innerText;
-			// 	let jHeight = containerDiv.children[j].style.height;
-			// 	let jText = containerDiv.children[j].innerText;
-			// 	//swap array
-			// 	[ arr[i], arr[j] ] = [ arr[j], arr[i] ]; //swap
-			// 	//delay
-			// 	//swap DOM element
-			// 	// await wait();
-			// 	containerDiv.children[i].style.height = jHeight;
-			// 	containerDiv.children[i].innerText = jText;
-			// 	containerDiv.children[j].style.height = iHeight;
-			// 	containerDiv.children[j].innerText = iText;
-			// }
-			await wait();
+			await wait(40);
 			containerDiv.children[j].style.backgroundColor = '';
 		}
 		containerDiv.children[i].style.backgroundColor = 'lightblue';
 	}
-	containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = 'lightblue';
-
+	// containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = 'lightblue';
+	colorBars('lightgreen', 40);
 	slider.disabled = false;
 	return;
 }
@@ -277,11 +267,9 @@ function swapper(prev, next) {
 	let prevText = containerDiv.children[prev].innerText;
 	let nextHeight = containerDiv.children[next].style.height;
 	let nextText = containerDiv.children[next].innerText;
-	//swap array
+
 	[ arr[prev], arr[next] ] = [ arr[next], arr[prev] ]; //swap
-	//delay
-	//swap DOM element
-	// await wait();
+
 	containerDiv.children[prev].style.height = nextHeight;
 	containerDiv.children[prev].innerText = nextText;
 	containerDiv.children[next].style.height = prevHeight;
@@ -290,28 +278,54 @@ function swapper(prev, next) {
 //==========================
 //bubble sort
 //==========================
-function bubbleSort() {
+async function bubbleSort() {
 	slider.disabled = true;
 	let swapped;
 	do {
 		swapped = false;
 		for (let i = 0; i < arr.length - 1; i++) {
+			//color i
+			//color i+1
+			await wait(40);
+			containerDiv.children[i].style.backgroundColor = 'green';
+			containerDiv.children[i + 1].style.backgroundColor = 'green';
+
 			if (arr[i] > arr[i + 1]) {
-				[ arr[i], arr[i + 1] ] = [ arr[i + 1], arr[i] ]; //swap
+				// [ arr[i], arr[i + 1] ] = [ arr[i + 1], arr[i] ]; //swap
+				await wait(40);
+				swapper(i, i + 1);
 				swapped = true;
 			}
+			containerDiv.children[i].style.backgroundColor = '';
+			containerDiv.children[i + 1].style.backgroundColor = '';
 		}
 	} while (swapped);
-
-	slider.disabled = true;
+	colorBars('lightblue', 40);
+	slider.disabled = false;
 	return;
 }
 
-function wait() {
+async function colorBars(color = 'lightblue', t = 40, start = 0, end = containerDiv.children.length) {
+	// for (let bar of containerDiv.children) {
+	let bar = containerDiv.children;
+	for (let i = start; i < end; i++) {
+		await wait(t);
+		bar[i].style.backgroundColor = color;
+	}
+}
+function colorBorders() {
+	// for (let bar of containerDiv.children) {
+	let bar = containerDiv.children;
+	for (let i = 0; i < bar.length; i++) {
+		bar[i].style.border = '';
+	}
+}
+//timeout---------------------------------------------------------------------------//
+function wait(t = 400) {
 	return new Promise((resolve, reject) => {
 		setTimeout(() => {
 			resolve(true);
-		}, 400);
+		}, t);
 	});
 }
 // function linear(el) {
