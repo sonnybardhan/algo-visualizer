@@ -20,7 +20,15 @@ resetBtn.addEventListener('click', fullReset);
 
 choice.addEventListener('change', (e) => {
 	//reset stuff
-	reset();
+
+	// reset();
+	let temp = choice.value;
+	fullReset();
+	choice.value = temp;
+
+	slider.value = setSize;
+	sliderValueSpan.innerText = setSize;
+
 	algo = e.target.value;
 	console.log(algo);
 	if (algo) {
@@ -119,6 +127,7 @@ function reset() {
 	sliderValueSpan.textContent = 25;
 	slider.value = 25;
 	slider.disabled = false;
+	choice.disabled = false;
 	algo = '';
 }
 
@@ -177,11 +186,12 @@ async function linear(el) {
 		divNum = parseInt(child.innerText);
 		if (divNum === el) {
 			await wait(250);
-			child.style.background = 'pink';
+			//found
+			child.style.background = 'tomato';
 			break;
 		} else {
 			await wait(250);
-			child.style.background = 'red';
+			child.style.background = 'lightseagreen';
 		}
 	}
 	searchInput.disabled = false;
@@ -194,45 +204,27 @@ async function binary(el) {
 	slider.disabled = true;
 	searchInput.disabled = true;
 	let start = 0;
-	// let end = arr.length - 1;
 	let end = containerDiv.children.length - 1;
 	await colorBars('white', 0);
-	// await colorBars('grey', 100, start, end);
-
-	// colorBorders();
-
-	// containerDiv.children[start].style.border = '5px solid red';
-	// containerDiv.children[end].style.border = '5px solid red';
-
 	while (start <= end) {
 		let mid = Math.floor((start + end) / 2);
 		let divNum = parseInt(containerDiv.children[mid].innerText);
 		await colorBars('white', 0);
-		await colorBars('yellow', 100, start, end + 1);
+		await colorBars('lightseagreen', 80, start, end + 1);
 		if (divNum === el) {
 			//found it! color div pink
-			await wait();
-			containerDiv.children[mid].style.background = 'pink';
+			// await wait();
+			await colorBars('white', 0);
+			containerDiv.children[mid].style.background = 'tomato';
 			break;
 		} else if (divNum < el) {
-			//color new range limit
-			await wait();
-			// containerDiv.children[mid].style.border = '5px solid red';
+			// await wait();
 			start = mid + 1;
-			// containerDiv.children[start].style.border = '5px solid red';
-			// containerDiv.children[end].style.border = '5px solid red';
 			await colorBars('white', 0);
-			// await colorBars('grey', 100, start, end);
 		} else {
-			//arr[mid] > el
-			//color new range limit
-			await wait();
-			// containerDiv.children[mid].style.border = '5px solid red';
+			// await wait();
 			end = mid - 1;
-			// containerDiv.children[start].style.border = '5px solid red';
-			// containerDiv.children[end].style.border = '5px solid red';
 			await colorBars('white', 0);
-			// await colorBars('grey', 100, start, end);
 		}
 	}
 	searchInput.disabled = false;
@@ -245,16 +237,17 @@ async function binary(el) {
 // ==========================
 async function selectionSort() {
 	slider.disabled = true;
+	choice.disabled = true;
 	for (let i = 0; i < containerDiv.children.length - 1; i++) {
 		//color the 1st bar
 		let min = parseInt(containerDiv.children[i].innerText);
 		await wait();
-		containerDiv.children[i].style.backgroundColor = 'yellow';
+		containerDiv.children[i].style.backgroundColor = 'lightseagreen';
 		for (let j = i + 1; j < containerDiv.children.length; j++) {
 			//delay
 			await wait(40);
 			//color the next bar
-			containerDiv.children[j].style.backgroundColor = 'yellow';
+			containerDiv.children[j].style.backgroundColor = 'lightseagreen';
 
 			if (arr[j] < arr[i]) {
 				swapper(i, j);
@@ -262,11 +255,12 @@ async function selectionSort() {
 			await wait(40);
 			containerDiv.children[j].style.backgroundColor = '';
 		}
-		containerDiv.children[i].style.backgroundColor = 'lightblue';
+		containerDiv.children[i].style.backgroundColor = 'tomato';
 	}
-	containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = 'lightblue';
-	colorBars('lightgreen', 40);
+	containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = 'tomato';
+	colorBars('hotpink', 40);
 	slider.disabled = false;
+	choice.disabled = false;
 	return;
 }
 
@@ -288,6 +282,7 @@ function swapper(prev, next) {
 //==========================
 async function bubbleSort() {
 	slider.disabled = true;
+	choice.disabled = true;
 	let swapped;
 	do {
 		swapped = false;
@@ -295,8 +290,8 @@ async function bubbleSort() {
 			//color i
 			//color i+1
 			await wait(40);
-			containerDiv.children[i].style.backgroundColor = 'green';
-			containerDiv.children[i + 1].style.backgroundColor = 'green';
+			containerDiv.children[i].style.backgroundColor = 'lightseagreen';
+			containerDiv.children[i + 1].style.backgroundColor = 'lightseagreen';
 
 			if (arr[i] > arr[i + 1]) {
 				// [ arr[i], arr[i + 1] ] = [ arr[i + 1], arr[i] ]; //swap
@@ -308,8 +303,9 @@ async function bubbleSort() {
 			containerDiv.children[i + 1].style.backgroundColor = '';
 		}
 	} while (swapped);
-	colorBars('lightblue', 40);
+	colorBars('hotpink', 40);
 	slider.disabled = false;
+	choice.disabled = false;
 	return;
 }
 
