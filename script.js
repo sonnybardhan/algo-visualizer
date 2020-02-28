@@ -94,6 +94,7 @@ function searchPreCheck(fn) {
 
 slider.addEventListener('change', (e) => {
 	arr = [];
+	search.value = '';
 	numToSearch = '';
 	setSize = parseInt(e.target.value);
 	sliderValueSpan.textContent = e.target.value;
@@ -201,13 +202,15 @@ async function binary(el) {
 	searchInput.disabled = true;
 	let start = 0;
 	let end = containerDiv.children.length - 1;
+	containerDiv.children[start].style.background = 'lightseagreen';
+	containerDiv.children[end].style.background = 'lightseagreen';
 	let found = false;
 	await colorBars('white', 0);
 	while (start <= end) {
 		let mid = Math.floor((start + end) / 2);
 		let divNum = parseInt(containerDiv.children[mid].innerText);
 		await colorBars('white', 0);
-		await colorBars('lightseagreen', 80, start, end + 1);
+		// await colorBars('lightseagreen', 80, start, end + 1);
 		if (divNum === el) {
 			await colorBars('white', 0);
 			containerDiv.children[mid].style.background = 'tomato';
@@ -215,22 +218,64 @@ async function binary(el) {
 			break;
 		} else if (divNum < el) {
 			start = mid + 1;
-			await colorBars('white', 0);
+			// await colorBars('white', 0);
+			containerDiv.children[start].style.background = 'lightseagreen';
+			containerDiv.children[end].style.background = 'lightseagreen';
+			// await wait(1000);
 		} else {
 			end = mid - 1;
-			await colorBars('white', 0);
+			// await colorBars('white', 0);
+			containerDiv.children[start].style.background = 'lightseagreen';
+			containerDiv.children[end].style.background = 'lightseagreen';
 		}
+		await wait(1000);
 	}
 	goBtn.disabled = false;
 	searchInput.disabled = false;
 	slider.disabled = false;
 	if (!found) {
-		containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = '';
-		await wait(40);
+		// containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = '';
+		// await wait(40);
 		alert('Not found!');
 	}
 	return null;
 }
+// async function binary(el) {
+// 	goBtn.disabled = true;
+// 	slider.disabled = true;
+// 	searchInput.disabled = true;
+// 	let start = 0;
+// 	let end = containerDiv.children.length - 1;
+// 	let found = false;
+// 	await colorBars('white', 0);
+// 	while (start <= end) {
+// 		let mid = Math.floor((start + end) / 2);
+// 		let divNum = parseInt(containerDiv.children[mid].innerText);
+// 		await colorBars('white', 0);
+// 		await colorBars('lightseagreen', 80, start, end + 1);
+// 		if (divNum === el) {
+// 			await colorBars('white', 0);
+// 			containerDiv.children[mid].style.background = 'tomato';
+// 			found = true;
+// 			break;
+// 		} else if (divNum < el) {
+// 			start = mid + 1;
+// 			await colorBars('white', 0);
+// 		} else {
+// 			end = mid - 1;
+// 			await colorBars('white', 0);
+// 		}
+// 	}
+// 	goBtn.disabled = false;
+// 	searchInput.disabled = false;
+// 	slider.disabled = false;
+// 	if (!found) {
+// 		containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = '';
+// 		await wait(40);
+// 		alert('Not found!');
+// 	}
+// 	return null;
+// }
 
 // ==========================
 // selectionSort
