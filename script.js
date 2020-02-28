@@ -11,7 +11,6 @@ const sliderDiv = document.querySelector('#sliderDiv');
 const searchDiv = document.querySelector('#searchDiv');
 
 document.addEventListener('keydown', (e) => {
-	// console.log(e.keyCode);
 	if (e.keyCode === 13) {
 		execute();
 	} else if (e.keyCode === 27) {
@@ -42,6 +41,14 @@ choice.addEventListener('change', (e) => {
 	} else {
 		searchDiv.style.display = 'block';
 	}
+	generateArrayAndBars();
+});
+
+goBtn.addEventListener('click', () => {
+	execute();
+});
+
+function generateArrayAndBars() {
 	generateArray();
 	if (algo === 'binary') {
 		arr.sort((a, b) => {
@@ -50,11 +57,7 @@ choice.addEventListener('change', (e) => {
 		});
 	}
 	generateBars();
-});
-
-goBtn.addEventListener('click', () => {
-	execute();
-});
+}
 
 function execute() {
 	let numToSearch = parseInt(searchInput.value);
@@ -92,15 +95,7 @@ slider.addEventListener('change', (e) => {
 	setSize = parseInt(e.target.value);
 	sliderValueSpan.textContent = e.target.value;
 	clearContainerDiv();
-
-	generateArray();
-	if (algo === 'binary') {
-		arr.sort((a, b) => {
-			if (a > b) return 1;
-			if (a < b) return -1;
-		});
-	}
-	generateBars();
+	generateArrayAndBars();
 });
 
 function fullReset() {
