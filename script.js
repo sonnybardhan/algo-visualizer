@@ -176,11 +176,11 @@ async function linear(el) {
 	for (let child of containerDiv.children) {
 		divNum = parseInt(child.innerText);
 		if (divNum === el) {
-			await wait();
+			await wait(250);
 			child.style.background = 'pink';
 			break;
 		} else {
-			await wait();
+			await wait(250);
 			child.style.background = 'red';
 		}
 	}
@@ -196,15 +196,19 @@ async function binary(el) {
 	let start = 0;
 	// let end = arr.length - 1;
 	let end = containerDiv.children.length - 1;
-	colorBars('white', 0);
-	colorBorders();
+	await colorBars('white', 0);
+	// await colorBars('grey', 100, start, end);
 
-	containerDiv.children[start].style.border = '5px solid red';
-	containerDiv.children[end].style.border = '5px solid red';
+	// colorBorders();
+
+	// containerDiv.children[start].style.border = '5px solid red';
+	// containerDiv.children[end].style.border = '5px solid red';
 
 	while (start <= end) {
 		let mid = Math.floor((start + end) / 2);
 		let divNum = parseInt(containerDiv.children[mid].innerText);
+		await colorBars('white', 0);
+		await colorBars('yellow', 100, start, end + 1);
 		if (divNum === el) {
 			//found it! color div pink
 			await wait();
@@ -215,16 +219,20 @@ async function binary(el) {
 			await wait();
 			// containerDiv.children[mid].style.border = '5px solid red';
 			start = mid + 1;
-			containerDiv.children[start].style.border = '5px solid red';
-			containerDiv.children[end].style.border = '5px solid red';
+			// containerDiv.children[start].style.border = '5px solid red';
+			// containerDiv.children[end].style.border = '5px solid red';
+			await colorBars('white', 0);
+			// await colorBars('grey', 100, start, end);
 		} else {
 			//arr[mid] > el
 			//color new range limit
 			await wait();
 			// containerDiv.children[mid].style.border = '5px solid red';
 			end = mid - 1;
-			containerDiv.children[start].style.border = '5px solid red';
-			containerDiv.children[end].style.border = '5px solid red';
+			// containerDiv.children[start].style.border = '5px solid red';
+			// containerDiv.children[end].style.border = '5px solid red';
+			await colorBars('white', 0);
+			// await colorBars('grey', 100, start, end);
 		}
 	}
 	searchInput.disabled = false;
@@ -256,7 +264,7 @@ async function selectionSort() {
 		}
 		containerDiv.children[i].style.backgroundColor = 'lightblue';
 	}
-	// containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = 'lightblue';
+	containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = 'lightblue';
 	colorBars('lightgreen', 40);
 	slider.disabled = false;
 	return;
