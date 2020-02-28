@@ -170,9 +170,11 @@ function clearContainerDiv() {
 // linear search
 // ==========================
 async function linear(el) {
+	choice.disabled = true;
 	goBtn.disabled = true;
 	slider.disabled = true;
 	searchInput.disabled = true;
+
 	let divNum;
 	let found = false;
 	colorBars('white', 0);
@@ -188,6 +190,7 @@ async function linear(el) {
 			child.style.background = 'lightseagreen';
 		}
 	}
+	choice.disabled = false;
 	goBtn.disabled = false;
 	searchInput.disabled = false;
 	slider.disabled = false;
@@ -197,6 +200,7 @@ async function linear(el) {
 //binary search
 //==========================
 async function binary(el) {
+	choice.disabled = true;
 	goBtn.disabled = true;
 	slider.disabled = true;
 	searchInput.disabled = true;
@@ -214,7 +218,6 @@ async function binary(el) {
 		let mid = Math.floor((start + end) / 2);
 		let divNum = parseInt(containerDiv.children[mid].innerText);
 		await colorBars('white', 0);
-		// await colorBars('lightseagreen', 80, start, end + 1);
 		if (divNum === el) {
 			await colorBars('white', 0);
 			containerDiv.children[mid].style.background = 'tomato';
@@ -222,64 +225,24 @@ async function binary(el) {
 			break;
 		} else if (divNum < el) {
 			start = mid + 1;
-			// await colorBars('white', 0);
 			containerDiv.children[start].style.background = 'lightseagreen';
 			containerDiv.children[end].style.background = 'lightseagreen';
-			// await wait(1000);
 		} else {
 			end = mid - 1;
-			// await colorBars('white', 0);
 			containerDiv.children[start].style.background = 'lightseagreen';
 			containerDiv.children[end].style.background = 'lightseagreen';
 		}
 		await wait(1000);
 	}
+	choice.disabled = false;
 	goBtn.disabled = false;
 	searchInput.disabled = false;
 	slider.disabled = false;
 	if (!found) {
-		// containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = '';
-		// await wait(40);
 		alert('Not found!');
 	}
-	return null;
+	return;
 }
-// async function binary(el) {
-// 	goBtn.disabled = true;
-// 	slider.disabled = true;
-// 	searchInput.disabled = true;
-// 	let start = 0;
-// 	let end = containerDiv.children.length - 1;
-// 	let found = false;
-// 	await colorBars('white', 0);
-// 	while (start <= end) {
-// 		let mid = Math.floor((start + end) / 2);
-// 		let divNum = parseInt(containerDiv.children[mid].innerText);
-// 		await colorBars('white', 0);
-// 		await colorBars('lightseagreen', 80, start, end + 1);
-// 		if (divNum === el) {
-// 			await colorBars('white', 0);
-// 			containerDiv.children[mid].style.background = 'tomato';
-// 			found = true;
-// 			break;
-// 		} else if (divNum < el) {
-// 			start = mid + 1;
-// 			await colorBars('white', 0);
-// 		} else {
-// 			end = mid - 1;
-// 			await colorBars('white', 0);
-// 		}
-// 	}
-// 	goBtn.disabled = false;
-// 	searchInput.disabled = false;
-// 	slider.disabled = false;
-// 	if (!found) {
-// 		containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = '';
-// 		await wait(40);
-// 		alert('Not found!');
-// 	}
-// 	return null;
-// }
 
 // ==========================
 // selectionSort
@@ -304,7 +267,7 @@ async function selectionSort() {
 		containerDiv.children[i].style.backgroundColor = 'tomato';
 	}
 	containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = 'tomato';
-	colorBars('hotpink', 40);
+	colorBars('lightcyan', 40);
 	goBtn.disabled = false;
 	slider.disabled = false;
 	choice.disabled = false;
@@ -347,7 +310,7 @@ async function bubbleSort() {
 			containerDiv.children[i + 1].style.backgroundColor = '';
 		}
 	} while (swapped);
-	colorBars('hotpink', 40);
+	colorBars('lightcyan', 40);
 	goBtn.disabled = false;
 	slider.disabled = false;
 	choice.disabled = false;
@@ -359,12 +322,6 @@ async function colorBars(color = 'lightblue', t = 40, start = 0, end = container
 	for (let i = start; i < end; i++) {
 		await wait(t);
 		bar[i].style.backgroundColor = color;
-	}
-}
-function colorBorders() {
-	let bar = containerDiv.children;
-	for (let i = 0; i < bar.length; i++) {
-		bar[i].style.border = '';
 	}
 }
 //timeout---------------------------------------------------------------------------//
