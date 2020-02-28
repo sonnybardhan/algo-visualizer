@@ -202,10 +202,14 @@ async function binary(el) {
 	searchInput.disabled = true;
 	let start = 0;
 	let end = containerDiv.children.length - 1;
+	await colorBars('white', 0);
+
 	containerDiv.children[start].style.background = 'lightseagreen';
 	containerDiv.children[end].style.background = 'lightseagreen';
+
 	let found = false;
-	await colorBars('white', 0);
+	await wait(1000);
+
 	while (start <= end) {
 		let mid = Math.floor((start + end) / 2);
 		let divNum = parseInt(containerDiv.children[mid].innerText);
@@ -219,14 +223,14 @@ async function binary(el) {
 		} else if (divNum < el) {
 			start = mid + 1;
 			// await colorBars('white', 0);
-			containerDiv.children[start - 1].style.background = 'lightseagreen';
+			containerDiv.children[start].style.background = 'lightseagreen';
 			containerDiv.children[end].style.background = 'lightseagreen';
 			// await wait(1000);
 		} else {
 			end = mid - 1;
 			// await colorBars('white', 0);
 			containerDiv.children[start].style.background = 'lightseagreen';
-			containerDiv.children[end + 1].style.background = 'lightseagreen';
+			containerDiv.children[end].style.background = 'lightseagreen';
 		}
 		await wait(1000);
 	}
