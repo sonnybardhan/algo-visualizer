@@ -219,14 +219,14 @@ async function binary(el) {
 		} else if (divNum < el) {
 			start = mid + 1;
 			// await colorBars('white', 0);
-			containerDiv.children[start].style.background = 'lightseagreen';
+			containerDiv.children[start - 1].style.background = 'lightseagreen';
 			containerDiv.children[end].style.background = 'lightseagreen';
 			// await wait(1000);
 		} else {
 			end = mid - 1;
 			// await colorBars('white', 0);
 			containerDiv.children[start].style.background = 'lightseagreen';
-			containerDiv.children[end].style.background = 'lightseagreen';
+			containerDiv.children[end + 1].style.background = 'lightseagreen';
 		}
 		await wait(1000);
 	}
