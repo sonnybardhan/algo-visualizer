@@ -10,6 +10,15 @@ const resetBtn = document.querySelector('#resetBtn');
 const sliderDiv = document.querySelector('#sliderDiv');
 const searchDiv = document.querySelector('#searchDiv');
 
+document.addEventListener('keydown', (e) => {
+	// console.log(e.keyCode);
+	if (e.keyCode === 13) {
+		execute();
+	} else if (e.keyCode === 27) {
+		fullReset();
+	}
+});
+
 let setSize = 25;
 let arr = [];
 let algo = '';
@@ -19,99 +28,80 @@ searchDiv.style.display = 'none';
 resetBtn.addEventListener('click', fullReset);
 
 choice.addEventListener('change', (e) => {
-	//reset stuff
-
-	// reset();
 	let temp = choice.value;
 	fullReset();
 	choice.value = temp;
-
 	slider.value = setSize;
 	sliderValueSpan.innerText = setSize;
-
 	algo = e.target.value;
-	console.log(algo);
 	if (algo) {
 		sliderDiv.style.display = 'block';
 	}
-
 	if (algo === 'selection' || algo === 'bubble') {
 		searchDiv.style.display = 'none';
 	} else {
 		searchDiv.style.display = 'block';
 	}
-
+	generateArray();
 	if (algo === 'binary') {
-		generateArray();
 		arr.sort((a, b) => {
 			if (a > b) return 1;
 			if (a < b) return -1;
 		});
-		generateBars();
-	} else {
-		generateArray();
-		generateBars();
 	}
+	generateBars();
 });
 
 goBtn.addEventListener('click', () => {
+	execute();
+});
+
+function execute() {
 	let numToSearch = parseInt(searchInput.value);
 	switch (algo) {
 		case 'linear':
-			if (numToSearch) {
-				console.log('Searching for: ', numToSearch);
-				linear(numToSearch);
-			} else {
-				alert('please enter a valid input');
-			}
+			searchPreCheck(linear, numToSearch);
 			break;
 		case 'binary':
-			if (numToSearch) {
-				console.log('Searching for: ', numToSearch);
-				binary(numToSearch);
-			} else {
-				alert('please enter a valid input');
-			}
+			searchPreCheck(binary, numToSearch);
 			break;
 		case 'bubble':
-			console.log('bubble sorting!');
 			bubbleSort();
 			break;
 		case 'selection':
-			console.log('selection sorting!');
 			selectionSort();
 			break;
 		default:
 			alert('Choose an algorithm!');
 			break;
 	}
-});
+}
+
+function searchPreCheck(fn, num) {
+	if (num) {
+		console.log('Searching for: ', num);
+		fn(num);
+	} else {
+		alert('please enter a valid input');
+	}
+	return;
+}
 
 slider.addEventListener('change', (e) => {
 	arr = [];
 	setSize = parseInt(e.target.value);
 	sliderValueSpan.textContent = e.target.value;
-	// console.log('setSize: ', setSize);
-	//populate container with ranges of random numbers
 	clearContainerDiv();
 
+	generateArray();
 	if (algo === 'binary') {
-		generateArray();
 		arr.sort((a, b) => {
 			if (a > b) return 1;
 			if (a < b) return -1;
 		});
-		generateBars();
-	} else {
-		generateArray();
-		generateBars();
 	}
+	generateBars();
 });
-
-(function onLoad() {
-	slider.value = 25;
-	sliderValueSpan.textContent = 25;
-})();
 
 function fullReset() {
 	reset();
@@ -132,18 +122,15 @@ function reset() {
 }
 
 function generateBars() {
-	//add height based on algo - if sorting
-	//add flex-end property to container element based on algo - if sorting
 	const containerHeight = containerDiv.clientHeight - 20;
 
 	if (algo === 'selection' || algo === 'bubble') {
 		for (let num of arr) {
 			let newDiv = document.createElement('div');
 			newDiv.textContent = num;
-			containerDiv.style.alignItems = 'flex-end'; //reset this property based on algo
+			containerDiv.style.alignItems = 'flex-end';
 			let barHeight = Math.floor(containerHeight * (num / 100));
 			barHeight += 'px';
-			// console.log(barHeight);
 			newDiv.classList.add('barColor');
 			newDiv.style.height = barHeight;
 			containerDiv.append(newDiv);
@@ -152,18 +139,16 @@ function generateBars() {
 		for (let num of arr) {
 			let newDiv = document.createElement('div');
 			newDiv.textContent = num;
-			containerDiv.style.alignItems = 'center'; //reset this property based on algo
+			containerDiv.style.alignItems = 'center';
 			newDiv.classList.add('barColor');
 			containerDiv.append(newDiv);
 		}
 	}
 }
 
-//make an array of N random numbers where N - sliderValue
 function generateArray() {
 	for (let i = 0; i < setSize; i++) {
-		// let num = Math.floor(Math.random() * 100) + 1;
-		let num = Math.floor(Math.random() * 96) + 5;
+		let num = Math.floor(Math.random() * 96) + 5; //Math.random() * (max-min+1) +min
 		arr.push(num);
 	}
 }
@@ -171,8 +156,6 @@ function generateArray() {
 function clearContainerDiv() {
 	containerDiv.innerHTML = '';
 }
-
-//algos----------------------------------------------------------------------------------------------------------------//
 
 // ==========================
 // linear search
@@ -186,13 +169,12 @@ async function linear(el) {
 	for (let child of containerDiv.children) {
 		divNum = parseInt(child.innerText);
 		if (divNum === el) {
-			await wait(250);
-			//found
+			await wait(100);
 			child.style.background = 'tomato';
 			found = true;
 			break;
 		} else {
-			await wait(250);
+			await wait(100);
 			child.style.background = 'lightseagreen';
 		}
 	}
@@ -216,18 +198,14 @@ async function binary(el) {
 		await colorBars('white', 0);
 		await colorBars('lightseagreen', 80, start, end + 1);
 		if (divNum === el) {
-			//found it! color div pink
-			// await wait();
 			await colorBars('white', 0);
 			containerDiv.children[mid].style.background = 'tomato';
 			found = true;
 			break;
 		} else if (divNum < el) {
-			// await wait();
 			start = mid + 1;
 			await colorBars('white', 0);
 		} else {
-			// await wait();
 			end = mid - 1;
 			await colorBars('white', 0);
 		}
@@ -249,16 +227,12 @@ async function selectionSort() {
 	slider.disabled = true;
 	choice.disabled = true;
 	for (let i = 0; i < containerDiv.children.length - 1; i++) {
-		//color the 1st bar
 		let min = parseInt(containerDiv.children[i].innerText);
 		await wait();
 		containerDiv.children[i].style.backgroundColor = 'lightseagreen';
 		for (let j = i + 1; j < containerDiv.children.length; j++) {
-			//delay
 			await wait(40);
-			//color the next bar
 			containerDiv.children[j].style.backgroundColor = 'lightseagreen';
-
 			if (arr[j] < arr[i]) {
 				swapper(i, j);
 			}
@@ -297,14 +271,10 @@ async function bubbleSort() {
 	do {
 		swapped = false;
 		for (let i = 0; i < arr.length - 1; i++) {
-			//color i
-			//color i+1
 			await wait(40);
 			containerDiv.children[i].style.backgroundColor = 'lightseagreen';
 			containerDiv.children[i + 1].style.backgroundColor = 'lightseagreen';
-
 			if (arr[i] > arr[i + 1]) {
-				// [ arr[i], arr[i + 1] ] = [ arr[i + 1], arr[i] ]; //swap
 				await wait(40);
 				swapper(i, i + 1);
 				swapped = true;
@@ -320,7 +290,6 @@ async function bubbleSort() {
 }
 
 async function colorBars(color = 'lightblue', t = 40, start = 0, end = containerDiv.children.length) {
-	// for (let bar of containerDiv.children) {
 	let bar = containerDiv.children;
 	for (let i = start; i < end; i++) {
 		await wait(t);
@@ -328,7 +297,6 @@ async function colorBars(color = 'lightblue', t = 40, start = 0, end = container
 	}
 }
 function colorBorders() {
-	// for (let bar of containerDiv.children) {
 	let bar = containerDiv.children;
 	for (let i = 0; i < bar.length; i++) {
 		bar[i].style.border = '';
@@ -342,66 +310,3 @@ function wait(t = 400) {
 		}, t);
 	});
 }
-// function linear(el) {
-// 	for (let i = 0; i < arr.length; i++) {
-// 		if (arr[i] === el) return arr[i];
-// 	}
-
-// 	return null;
-// }
-
-//==========================
-//binary search
-//==========================
-// function binary(arr, el){
-//   let start = 0;
-//   let end = arr.length-1;
-
-//   while(start<=end){
-//     let mid = Math.floor((start+end)/2);
-//     if(arr[mid] === el) {
-//       return mid; //return the index
-//     } else if(arr[mid]<el){
-//       start = mid+1;
-//     } else { //arr[mid] > el
-//       end = mid-1;
-//     }
-//   }
-//   return null;
-// }
-
-//====================================================
-//====================================================
-
-//==========================
-//selectionSort
-//==========================
-// function selectionSort(arr){
-//   for(let i = 0;i<arr.length-1; i++){
-//     let min = arr[i];
-//     for(let j = i+1; j<arr.length;j++){
-//       if(arr[j]<arr[i]) {
-//         [arr[i], arr[j]] = [arr[j], arr[i]]; //swap
-//       }
-//     }
-//   }
-//   return arr;
-// }
-
-//==========================
-//bubble sort
-//==========================
-// function bubbleSort(arr){
-//   let swapped;
-//   do{
-//     swapped = false;
-//     for(let i = 0; i<arr.length-1; i++){
-//       if(arr[i] > arr[i+1]){
-//         [arr[i], arr[i+1]] = [arr[i+1], arr[i]]; //swap
-//         swapped = true;
-//       }
-//     }
-//   }while(swapped)
-
-//   return arr;
-// }

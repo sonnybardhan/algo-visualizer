@@ -18,8 +18,11 @@ button {
 	display: flex;
 	align-items: center;
 	padding: 5px;
+	justify-content: center;
 }
-
+#choice {
+	outline: none;
+}
 #search {
 	width: 60px;
 }
@@ -30,20 +33,9 @@ button {
 #goBtn {
 	background-color: green;
 	color: white;
-	/* color: darkolivegreen; */
 }
-/* 
-.box {
-	height: 100px;
-	color: white;
-	font-weight: 900;
-	font-size: 36px;
-	text-align: center;
-	padding: 20px;
-} */
 
 .barColor {
-	/* background-color: blueviolet; */
 	height: 50px;
 	width: 50px;
 	border: 1px solid black;
