@@ -5,47 +5,52 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-	<link href="https://fonts.googleapis.com/css?family=Spartan:400,700&display=swap" rel="stylesheet">
+	<!-- <link href="https://fonts.googleapis.com/css?family=Spartan:400,700&display=swap" rel="stylesheet"> -->
+	<link href="https://fonts.googleapis.com/css?family=Spartan:100,200,300,400,600&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="./style.css">
 	<title>Algo visualizer</title>
 </head>
 
 <body>
 	<!-- <h1>Algorithm visualizer</h1> -->
-	<p id="heading">Algorithm visualizer</p>
-	<hr>
-	<div>
-		<select name="" id="choice">
-			<option value="default" selected>-- pick algo --</option>
-			<option value="linear">Linear Search</option>
-			<option value="binary">Binary Search</option>
-			<option value="selection">Selection Sort</option>
-			<option value="bubble">Bubble Sort</option>
-		</select>
-		<br><br>
-		<div id="sliderDiv">
-			<label for="slider">Enter size: </label>
-			<input type="range" min="5" max="40" id="slider">
-			<span id="sliderValue"></span>
-			<br><br>
-		</div>
-		<div id="searchDiv">
-			<label for="search">Search: </label>
-			<input type="number" id="search" autocomplete="off">
-				<sub>[click] on any box to set search value</sub>
-			<br><br>
-		</div>
-		<button id="goBtn">Go</button>
-		<button id="resetBtn">Reset</button>
-		<sub>[enter] to run, [esc] to reset</sub>
-		
-		<!-- <div class="">
-		</div> -->
-		<!-- <button id="generateRandomDataSet">Generate random data set</button> -->
+	<div class="header">
+		<p id="heading">Algorithm visualizer</p>
 	</div>
+	<!-- <hr> -->
+	<div class="main-container">
+		<div>
+			<select name="" id="choice">
+				<option value="default" selected>[pick an algorithm]</option>
+				<option value="linear">Linear Search</option>
+				<option value="binary">Binary Search</option>
+				<option value="selection">Selection Sort</option>
+				<option value="bubble">Bubble Sort</option>
+			</select>
+			<br><br>
+			<div id="sliderDiv">
+				<label for="slider">Enter size: </label>
+				<input type="range" min="5" max="40" id="slider">
+				<span id="sliderValue"></span>
+				<br><br>
+			</div>
+			<div id="searchDiv">
+				<label for="search">Search: </label>
+				<input type="number" id="search" autocomplete="off">
+					<sub>[click] on any box or type in to set search value</sub>
+				<br><br>
+			</div>
+			<button id="goBtn">Go</button>
+			<button id="resetBtn">Reset</button>
+			<sub>[enter] to run, [esc] to reset</sub>
+			
+			<!-- <div class="">
+			</div> -->
+			<!-- <button id="generateRandomDataSet">Generate random data set</button> -->
+		</div>
+		
+		<div class="container">
 	
-	<div class="container">
-
+		</div>
 	</div>
 	<script src="./script.js"></script>
 </body>

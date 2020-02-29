@@ -10,6 +10,21 @@ const resetBtn = document.querySelector('#resetBtn');
 const sliderDiv = document.querySelector('#sliderDiv');
 const searchDiv = document.querySelector('#searchDiv');
 
+let setSize = 25;
+let arr = [];
+let algo = '';
+let highlight = 'rgb(163, 228, 228)';
+let numToSearch;
+
+sliderDiv.style.display = 'none';
+searchDiv.style.display = 'none';
+resetBtn.addEventListener('click', fullReset);
+
+searchInput.addEventListener('change', (e) => {
+	numToSearch = parseInt(e.target.value);
+	console.log('numToSearch', numToSearch);
+});
+
 document.addEventListener('keydown', (e) => {
 	if (e.keyCode === 13) {
 		execute();
@@ -17,17 +32,6 @@ document.addEventListener('keydown', (e) => {
 		fullReset();
 	}
 });
-
-let setSize = 25;
-let arr = [];
-let algo = '';
-let numToSearch = parseInt(searchInput.value);
-
-sliderDiv.style.display = 'none';
-searchDiv.style.display = 'none';
-
-resetBtn.addEventListener('click', fullReset);
-
 choice.addEventListener('change', (e) => {
 	let temp = choice.value;
 	fullReset();
@@ -38,13 +42,24 @@ choice.addEventListener('change', (e) => {
 	if (algo) {
 		sliderDiv.style.display = 'block';
 	}
+	generateArrayAndBars();
+	if (algo === 'linear' || algo === 'binary') {
+		generateNumToSearchVal();
+		console.log(numToSearch);
+	}
 	if (algo === 'selection' || algo === 'bubble') {
 		searchDiv.style.display = 'none';
 	} else {
+		searchInput.disabled = false;
 		searchDiv.style.display = 'block';
 	}
-	generateArrayAndBars();
 });
+
+function generateNumToSearchVal() {
+	let randomNum = Math.floor(Math.random() * arr.length + 1);
+	searchInput.value = arr[randomNum];
+	numToSearch = arr[randomNum];
+}
 
 goBtn.addEventListener('click', () => {
 	execute();
@@ -62,7 +77,6 @@ function generateArrayAndBars() {
 }
 
 function execute() {
-	// let numToSearch = parseInt(searchInput.value);
 	switch (algo) {
 		case 'linear':
 			searchPreCheck(linear, numToSearch);
@@ -83,7 +97,7 @@ function execute() {
 }
 
 function searchPreCheck(fn) {
-	if (numToSearch) {
+	if (numToSearch !== '') {
 		console.log('Searching for: ', numToSearch);
 		fn(numToSearch);
 	} else {
@@ -100,6 +114,10 @@ slider.addEventListener('change', (e) => {
 	sliderValueSpan.textContent = e.target.value;
 	clearContainerDiv();
 	generateArrayAndBars();
+	if (algo === 'linear' || algo === 'binary') {
+		generateNumToSearchVal();
+		console.log(numToSearch);
+	}
 });
 
 function fullReset() {
@@ -132,7 +150,7 @@ function generateBars() {
 			containerDiv.style.alignItems = 'flex-end';
 			let barHeight = Math.floor(containerHeight * (num / 100));
 			barHeight += 'px';
-			newDiv.classList.add('barColor');
+			newDiv.classList.add('sortBarColor');
 			newDiv.style.height = barHeight;
 			containerDiv.append(newDiv);
 		}
@@ -140,10 +158,8 @@ function generateBars() {
 		for (let num of arr) {
 			let newDiv = document.createElement('div');
 			newDiv.textContent = num;
-			//adding click handlers
 			if (algo === 'linear' || algo === 'binary') {
 				newDiv.addEventListener('click', function(e) {
-					// console.log(e.target.innerText);
 					numToSearch = parseInt(e.target.innerText);
 					search.value = parseInt(e.target.innerText);
 				});
@@ -169,108 +185,128 @@ function clearContainerDiv() {
 // ==========================
 // linear search
 // ==========================
-async function linear(el) {
-	choice.disabled = true;
-	goBtn.disabled = true;
-	slider.disabled = true;
-	searchInput.disabled = true;
-
+async function linear() {
+	inputDisable(true);
 	let divNum;
 	let found = false;
 	colorBars('white', 0);
+	colorBarText();
 	for (let child of containerDiv.children) {
 		divNum = parseInt(child.innerText);
-		if (divNum === el) {
+		if (divNum === numToSearch) {
 			await wait(100);
-			child.style.background = 'rgb(238, 255, 86)';
+			child.style.background = highlight;
+			child.style.color = '#2b2b2b';
 			found = true;
 			break;
 		} else {
 			await wait(100);
-			child.style.background = 'rgb(235, 235, 235)';
+			child.style.background = '#2b2b2b';
+			child.style.color = 'rgb(212, 212, 212)';
 		}
 	}
-	choice.disabled = false;
-	goBtn.disabled = false;
-	searchInput.disabled = false;
-	slider.disabled = false;
-	if (!found) alert('Not found!');
+	inputDisable(false);
+	if (!found) {
+		containerDiv.children[containerDiv.children.length - 1].style.background = '#2b2b2b';
+		containerDiv.children[containerDiv.children.length - 1].style.color = 'rgb(212, 212, 212)';
+		await wait();
+		alert('Not found!');
+	}
+}
+
+function inputDisable(val) {
+	choice.disabled = val;
+	goBtn.disabled = val;
+	searchInput.disabled = val;
+	slider.disabled = val;
 }
 //==========================
 //binary search
 //==========================
-async function binary(el) {
-	choice.disabled = true;
-	goBtn.disabled = true;
-	slider.disabled = true;
-	searchInput.disabled = true;
+async function binary() {
+	console.log('searching for: ', numToSearch);
+	inputDisable(true);
 	let start = 0;
 	let end = containerDiv.children.length - 1;
-	await colorBars('white', 0);
-
-	containerDiv.children[start].style.background = 'rgb(235, 235, 235)';
-	containerDiv.children[end].style.background = 'rgb(235, 235, 235)';
-
+	await colorBars('', 0);
+	colorBarText();
+	colorBinaryBars(start, end);
 	let found = false;
 	await wait(500);
 
 	while (start <= end) {
 		let mid = Math.floor((start + end) / 2);
-		let divNum = parseInt(containerDiv.children[mid].innerText);
+		let midDivNum = parseInt(containerDiv.children[mid].innerText);
+		console.log('midDivNum: ', midDivNum);
+
 		await colorBars('white', 0);
-		if (divNum === el) {
-			await colorBars('white', 0);
-			containerDiv.children[mid].style.background = 'rgb(238, 255, 86)';
+		colorBarText();
+
+		if (start >= end && midDivNum !== numToSearch) {
+			console.log('Entered this');
+			console.log('found value: ', found);
+			break;
+		}
+
+		if (midDivNum === numToSearch) {
+			//found
+			containerDiv.children[mid].style.background = highlight;
+			containerDiv.children[mid].style.color = '#2b2b2b';
 			found = true;
 			break;
-		} else if (divNum < el) {
+		} else if (midDivNum < numToSearch) {
 			start = mid + 1;
-			containerDiv.children[start].style.background = 'rgb(235, 235, 235)';
-			containerDiv.children[end].style.background = 'rgb(235, 235, 235)';
+			colorBinaryBars(start, end);
 		} else {
 			end = mid - 1;
-			containerDiv.children[start].style.background = 'rgb(235, 235, 235)';
-			containerDiv.children[end].style.background = 'rgb(235, 235, 235)';
+			colorBinaryBars(start, end);
 		}
-		await wait(500);
+		await wait(1000);
 	}
-	choice.disabled = false;
-	goBtn.disabled = false;
-	searchInput.disabled = false;
-	slider.disabled = false;
+	inputDisable(false);
 	if (!found) {
+		await colorBars('white', 0);
+		colorBarText();
+		await wait();
 		alert('Not found!');
 	}
 	return;
+}
+
+function colorBinaryBars(s, e, bgCol = '#2b2b2b', fontCol = 'rgb(212, 212, 212)') {
+	containerDiv.children[s].style.background = bgCol;
+	containerDiv.children[s].style.color = fontCol;
+	containerDiv.children[e].style.background = bgCol;
+	containerDiv.children[e].style.color = fontCol;
 }
 
 // ==========================
 // selectionSort
 // ==========================
 async function selectionSort() {
-	goBtn.disabled = true;
-	slider.disabled = true;
-	choice.disabled = true;
+	inputDisable(true);
 	for (let i = 0; i < containerDiv.children.length - 1; i++) {
-		let min = parseInt(containerDiv.children[i].innerText);
-		await wait();
-		containerDiv.children[i].style.backgroundColor = 'rgb(235, 235, 235)';
+		// let min = parseInt(containerDiv.children[i].innerText);
+		containerDiv.children[i].style.backgroundColor = 'rgb(212, 212, 212)';
+		containerDiv.children[i].style.color = '#2b2b2b';
+		await wait(40);
 		for (let j = i + 1; j < containerDiv.children.length; j++) {
+			containerDiv.children[j].style.backgroundColor = 'rgb(212, 212, 212)';
+			containerDiv.children[j].style.color = '#2b2b2b';
 			await wait(40);
-			containerDiv.children[j].style.backgroundColor = 'rgb(235, 235, 235)';
 			if (arr[j] < arr[i]) {
 				swapper(i, j);
 			}
-			await wait(40);
 			containerDiv.children[j].style.backgroundColor = '';
+			containerDiv.children[j].style.color = 'rgb(212, 212, 212)';
+			await wait(40);
 		}
-		containerDiv.children[i].style.backgroundColor = 'rgb(238, 255, 86)';
+		containerDiv.children[i].style.backgroundColor = highlight;
+		containerDiv.children[i].style.color = '#2b2b2b';
 	}
-	containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = 'rgb(238, 255, 86)';
-	// colorBars('lightcyan', 40);
-	goBtn.disabled = false;
-	slider.disabled = false;
-	choice.disabled = false;
+	containerDiv.children[containerDiv.children.length - 1].style.backgroundColor = highlight;
+	containerDiv.children[containerDiv.children.length - 1].style.color = '#2b2b2b';
+	inputDisable(false);
 	return;
 }
 
@@ -287,41 +323,53 @@ function swapper(prev, next) {
 	containerDiv.children[next].style.height = prevHeight;
 	containerDiv.children[next].innerText = prevText;
 }
+
 //==========================
 //bubble sort
 //==========================
 async function bubbleSort() {
-	goBtn.disabled = true;
-	slider.disabled = true;
-	choice.disabled = true;
+	inputDisable(true);
 	let swapped;
 	do {
 		swapped = false;
 		for (let i = 0; i < arr.length - 1; i++) {
-			await wait(40);
-			containerDiv.children[i].style.backgroundColor = 'rgb(235, 235, 235)';
-			containerDiv.children[i + 1].style.backgroundColor = 'rgb(235, 235, 235)';
+			await wait(125);
+			colorBarText('rgb(212, 212, 212)');
+
+			containerDiv.children[i].style.backgroundColor = 'rgb(212, 212, 212)';
+			containerDiv.children[i].style.color = '#2b2b2b';
+			containerDiv.children[i + 1].style.backgroundColor = 'rgb(212, 212, 212)';
+			containerDiv.children[i + 1].style.color = '#2b2b2b';
+
 			if (arr[i] > arr[i + 1]) {
-				await wait(40);
+				await wait(125);
 				swapper(i, i + 1);
 				swapped = true;
 			}
 			containerDiv.children[i].style.backgroundColor = '';
 			containerDiv.children[i + 1].style.backgroundColor = '';
 		}
+		colorBarText('rgb(212, 212, 212)');
 	} while (swapped);
-	colorBars('rgb(238, 255, 86)', 40);
-	goBtn.disabled = false;
-	slider.disabled = false;
-	choice.disabled = false;
+
+	colorBars(highlight, 125);
+	colorBarText();
+	inputDisable(false);
 	return;
 }
 
-async function colorBars(color = 'rgb(238, 255, 86)', t = 40, start = 0, end = containerDiv.children.length) {
+async function colorBars(color = 'white', t = 40, start = 0, end = containerDiv.children.length) {
 	let bar = containerDiv.children;
 	for (let i = start; i < end; i++) {
 		await wait(t);
 		bar[i].style.backgroundColor = color;
+	}
+}
+
+function colorBarText(color = '#2b2b2b') {
+	let bar = containerDiv.children;
+	for (let i = 0; i < bar.length; i++) {
+		bar[i].style.color = color;
 	}
 }
 //timeout---------------------------------------------------------------------------//

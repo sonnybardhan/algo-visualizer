@@ -1,15 +1,24 @@
 * {
 	box-sizing: border-box;
+	/* margin: 0 0; */
 }
 body {
-	padding: 50px 50px;
+	padding: 0px 10px;
 	font-family: 'Spartan';
+	font-weight: 200;
+	font-size: 16px;
 	background-color: rgb(247, 247, 247);
+	/* text-transform: uppercase; */
 }
 
 button {
 	padding: 5px 10px;
 	border-radius: 5px;
+	height: 35px;
+	width: 75px;
+	font-family: 'Spartan';
+	text-transform: uppercase;
+	font-weight: bold;
 	outline: none;
 }
 .container {
@@ -28,34 +37,83 @@ hr {
 	margin-bottom: 20px;
 	width: 200px;
 }
+.header {
+	color: rgb(212, 212, 212);
+	font-weight: 100;
+	padding: 20px;
+	background-color: #2b2b2b;
+	margin-bottom: 20px;
+	/* margin-left: 0; */
+}
 #heading {
 	font-size: 40px;
 	text-align: center;
 }
 #choice {
+	height: 40px;
+	width: 250px;
 	outline: none;
+	font-family: 'Spartan';
+	font-weight: 200;
+
+	/* font-weight: lighter; */
+	/* font-weight: 200; */
+	font-size: 16px;
 }
 #search {
 	width: 60px;
 	outline: none;
-}
-#resetBtn {
-	/* background-color: rgb(187, 187, 187); */
-	/* color: white; */
-	font-weight: bold;
+	height: 30px;
+	padding-left: 10px;
+	border-radius: 3px;
+	border: 1px solid #cccccc;
+	font-size: 14px;
+	font-family: 'Spartan';
+	font-weight: 200;
 }
 #goBtn {
-	/* background-color: rgb(188, 228, 188); */
-	/* background-color: rgb(255, 255, 255); */
-	background-color: rgb(238, 255, 86);
-	font-weight: bold;
+	/* background-color: #a6c6c1; */
+	background-color: #2b2b2b;
+	color: rgb(212, 211, 211);
 	/* color: white; */
+	/* color: rgb(238, 255, 86); */
+	font-weight: bold;
+	text-transform: uppercase;
 }
 
+#slider {
+	/* width: 100%; */
+	/* height: 5px; */
+	cursor: pointer;
+	/* animate: 0.2s; */
+	box-shadow: 0px 0px 0px #000000;
+	/* background: #2497e3; */
+	/* border-radius: 1px; */
+	/* border: 0px solid #000000; */
+}
+#resetBtn {
+	/* font-weight: bold; */
+	background-color: rgb(163, 228, 228);
+	/* background-color: rgb(126, 250, 250); */
+}
+sub {
+	font-size: 12px;
+}
 .barColor {
 	height: 50px;
 	width: 50px;
 	border: 1px solid black;
 	margin: 1px 1px;
 	padding-top: 5px;
+	background-color: white;
+	color: #2b2b2b;
+}
+.sortBarColor {
+	height: 50px;
+	width: 50px;
+	border: 1px solid #2b2b2b;
+	margin: 1px 1px;
+	padding-top: 5px;
+	background-color: #2b2b2b;
+	color: rgb(212, 212, 212);
 }
