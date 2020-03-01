@@ -147,7 +147,8 @@ function generateBars() {
 		for (let num of arr) {
 			let newDiv = document.createElement('div');
 			newDiv.textContent = num;
-			containerDiv.style.alignItems = 'flex-end';
+			// containerDiv.style.alignItems = 'flex-end';
+			containerDiv.style.alignItems = 'center';
 			let barHeight = Math.floor(containerHeight * (num / 100));
 			barHeight += 'px';
 			newDiv.classList.add('sortBarColor');
@@ -197,6 +198,8 @@ async function linear() {
 			await wait(100);
 			child.style.background = highlight;
 			child.style.color = '#2b2b2b';
+			//
+			child.style.border = '0';
 			found = true;
 			break;
 		} else {
@@ -252,6 +255,7 @@ async function binary() {
 			//found
 			containerDiv.children[mid].style.background = highlight;
 			containerDiv.children[mid].style.color = '#2b2b2b';
+			containerDiv.children[mid].style.border = '0';
 			found = true;
 			break;
 		} else if (midDivNum < numToSearch) {
@@ -289,17 +293,17 @@ async function selectionSort() {
 		// let min = parseInt(containerDiv.children[i].innerText);
 		containerDiv.children[i].style.backgroundColor = 'rgb(212, 212, 212)';
 		containerDiv.children[i].style.color = '#2b2b2b';
-		await wait(40);
+		await wait(55);
 		for (let j = i + 1; j < containerDiv.children.length; j++) {
 			containerDiv.children[j].style.backgroundColor = 'rgb(212, 212, 212)';
 			containerDiv.children[j].style.color = '#2b2b2b';
-			await wait(40);
+			await wait(55);
 			if (arr[j] < arr[i]) {
 				swapper(i, j);
 			}
 			containerDiv.children[j].style.backgroundColor = '';
 			containerDiv.children[j].style.color = 'rgb(212, 212, 212)';
-			await wait(40);
+			await wait(55);
 		}
 		containerDiv.children[i].style.backgroundColor = highlight;
 		containerDiv.children[i].style.color = '#2b2b2b';
@@ -333,7 +337,7 @@ async function bubbleSort() {
 	do {
 		swapped = false;
 		for (let i = 0; i < arr.length - 1; i++) {
-			await wait(125);
+			await wait(55);
 			colorBarText('rgb(212, 212, 212)');
 
 			containerDiv.children[i].style.backgroundColor = 'rgb(212, 212, 212)';
@@ -342,7 +346,7 @@ async function bubbleSort() {
 			containerDiv.children[i + 1].style.color = '#2b2b2b';
 
 			if (arr[i] > arr[i + 1]) {
-				await wait(125);
+				await wait(55);
 				swapper(i, i + 1);
 				swapped = true;
 			}
@@ -352,7 +356,7 @@ async function bubbleSort() {
 		colorBarText('rgb(212, 212, 212)');
 	} while (swapped);
 
-	colorBars(highlight, 125);
+	colorBars(highlight, 55);
 	colorBarText();
 	inputDisable(false);
 	return;
@@ -370,6 +374,7 @@ function colorBarText(color = '#2b2b2b') {
 	let bar = containerDiv.children;
 	for (let i = 0; i < bar.length; i++) {
 		bar[i].style.color = color;
+		bar[i].style.border = `1px solid ${color}`;
 	}
 }
 //timeout---------------------------------------------------------------------------//
