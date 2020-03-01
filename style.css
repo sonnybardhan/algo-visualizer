@@ -7,7 +7,8 @@ body {
 	font-family: 'Spartan';
 	font-weight: 200;
 	font-size: 16px;
-	background-color: rgb(247, 247, 247);
+	background-color: rgb(221, 221, 221);
+	/* background-color: rgb(247, 247, 247); */
 	/* text-transform: uppercase; */
 }
 
@@ -31,7 +32,7 @@ button {
 	justify-content: center;
 	align-items: center;
 	background-color: white;
-	box-shadow: inset 0 0 100px #dadada;
+	box-shadow: inset 0 0 90px #aaaaaa;
 	border-radius: 5px;
 }
 hr {
@@ -59,6 +60,7 @@ hr {
 	font-family: 'Spartan';
 	font-weight: 200;
 	font-size: 16px;
+	border: none;
 }
 #search {
 	width: 60px;

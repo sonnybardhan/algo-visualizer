@@ -357,7 +357,7 @@ async function bubbleSort() {
 	} while (swapped);
 
 	colorBars(highlight, 55);
-	colorBarText();
+	colorBarTextNoBorder();
 	inputDisable(false);
 	return;
 }
@@ -375,6 +375,13 @@ function colorBarText(color = '#2b2b2b') {
 	for (let i = 0; i < bar.length; i++) {
 		bar[i].style.color = color;
 		bar[i].style.border = `1px solid ${color}`;
+	}
+}
+function colorBarTextNoBorder(color = '#2b2b2b') {
+	let bar = containerDiv.children;
+	for (let i = 0; i < bar.length; i++) {
+		bar[i].style.color = color;
+		// bar[i].style.border = `1px solid ${color}`;
 	}
 }
 //timeout---------------------------------------------------------------------------//
